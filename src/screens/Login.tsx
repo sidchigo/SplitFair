@@ -8,13 +8,20 @@ function LoginScreen() {
   const [mobile, setMobile] = useState('');
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 24,
+      }}>
       <Section
         title="Sign in to your Account"
         subtitle="Enter your whatsapp number to log in"
       />
       <Input label="Mobile" value={mobile} setValue={setMobile} />
       <BaseButton variant="primary">Get OTP</BaseButton>
+      <BaseButton variant="secondary">Register via mobile number</BaseButton>
     </View>
   );
 }

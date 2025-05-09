@@ -3,7 +3,6 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
     alignItems: 'flex-start',
     width: '100%',
   },
@@ -46,6 +45,7 @@ export default function Input({
       <TextInput
         style={styles.input}
         placeholder="Enter number"
+        placeholderTextColor="#B0B3B8"
         value={value}
         maxLength={10}
         inputMode="numeric"
