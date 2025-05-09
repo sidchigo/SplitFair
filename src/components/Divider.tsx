@@ -1,0 +1,36 @@
+import {JSX} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import colors from '../styles/colors';
+
+const styles = StyleSheet.create({
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  grayText: {
+    textTransform: 'capitalize',
+    color: colors.gray,
+  },
+  lineBefore: {
+    borderBottomColor: colors.gray,
+    borderBottomWidth: 1,
+    width: '100%',
+  },
+  lineAfter: {
+    borderBottomColor: colors.gray,
+    borderBottomWidth: 1,
+    width: '100%',
+  },
+});
+
+export default function Divider(): JSX.Element {
+  return (
+    <View style={styles.dividerContainer}>
+      <View style={styles.lineBefore} />
+      <Text style={styles.grayText}>or</Text>
+      <View style={styles.lineAfter} />
+    </View>
+  );
+}

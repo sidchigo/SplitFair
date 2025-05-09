@@ -1,7 +1,13 @@
 import {JSX} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  InputModeOptions,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
-const styles = StyleSheet.create({
+export const inputStyles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
     width: '100%',
@@ -32,24 +38,30 @@ type InputProps = {
   label: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  placeholder?: string;
+  mode?: InputModeOptions;
+  maxLength?: number;
 };
 
 export default function Input({
   label,
   value,
   setValue,
+  placeholder = '',
+  mode = 'text',
+  maxLength = 10,
 }: InputProps): JSX.Element {
   return (
-    <View style={styles.container}>
-      <Text style={styles.subtitle}>{label}</Text>
+    <View style={inputStyles.container}>
+      <Text style={inputStyles.subtitle}>{label}</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Enter number"
+        style={inputStyles.input}
+        placeholder={placeholder}
         placeholderTextColor="#B0B3B8"
         value={value}
-        maxLength={10}
-        inputMode="numeric"
-        keyboardType="number-pad"
+        maxLength={maxLength}
+        inputMode={mode}
+        keyboardType={mode === 'text' ? 'decimal-pad' : 'number-pad'}
         onChangeText={setValue}
       />
     </View>

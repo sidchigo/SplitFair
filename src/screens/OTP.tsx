@@ -4,11 +4,9 @@ import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
 import Divider from '../components/Divider';
-import {useNavigation} from '@react-navigation/native';
 
-function LoginScreen() {
+function OTPScreen() {
   const [mobile, setMobile] = useState('');
-  const navigation = useNavigation();
 
   return (
     <View
@@ -20,23 +18,19 @@ function LoginScreen() {
         marginTop: 100,
       }}>
       <Section
-        title="Sign in to your Account"
-        subtitle="Enter your whatsapp number to log in"
+        title="Enter OTP"
+        subtitle="We have sent an OTP on your registered number"
       />
       <Input
         mode="numeric"
-        label="Mobile"
+        label="OTP"
         value={mobile}
-        placeholder="Enter number"
         setValue={setMobile}
+        maxLength={4}
       />
-      <BaseButton variant="primary" onPress={() => navigation.navigate('OTP')}>
-        Get OTP
-      </BaseButton>
-      <Divider />
-      <BaseButton variant="secondary">Register via mobile number</BaseButton>
+      <BaseButton variant="primary">Login</BaseButton>
     </View>
   );
 }
 
-export default LoginScreen;
+export default OTPScreen;

@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     width: '100%',
+    borderWidth: 1,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -18,6 +19,8 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     backgroundColor: 'transparent',
+  },
+  secondaryButtonText: {
     color: '#121212',
   },
 });
@@ -25,25 +28,30 @@ const styles = StyleSheet.create({
 type BaseButtonProps = {
   variant: 'primary' | 'secondary' | 'tertiary';
   children: string;
+  onPress?: () => void;
 };
 
 export default function BaseButton({
   variant,
   children,
+  onPress,
 }: BaseButtonProps): JSX.Element {
-  const variantStyles = () => {
+  const variantStyles = (type = '') => {
     switch (variant) {
       case 'primary':
-        return styles.primaryButton;
+        return type === 'text' ? styles.buttonText : styles.primaryButton;
       case 'secondary':
-        return styles.secondaryButton;
+        return type === 'text'
+          ? styles.secondaryButtonText
+          : styles.secondaryButton;
       default:
-        return styles.baseButton;
+        return type === '' ? {} : styles.baseButton;
     }
   };
   return (
-    <Pressable style={[styles.baseButton, variantStyles()]}>
-      <Text style={styles.buttonText}>{children}</Text>
+    <Pressable style={[styles.baseButton, variantStyles()]} onPress={onPress}>
+      <Text style={[styles.buttonText, variantStyles('text')]}>{children}</Text>
+      {/* </Animated.View> */}
     </Pressable>
   );
 }

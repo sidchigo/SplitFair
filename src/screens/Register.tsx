@@ -6,7 +6,7 @@ import BaseButton from '../components/Button';
 import Divider from '../components/Divider';
 import {useNavigation} from '@react-navigation/native';
 
-function LoginScreen() {
+function RegisterScreen() {
   const [mobile, setMobile] = useState('');
   const navigation = useNavigation();
 
@@ -20,23 +20,20 @@ function LoginScreen() {
         marginTop: 100,
       }}>
       <Section
-        title="Sign in to your Account"
-        subtitle="Enter your whatsapp number to log in"
+        title="Enter your mobile number"
+        subtitle="Whatsapp number is preferred"
       />
       <Input
         mode="numeric"
         label="Mobile"
         value={mobile}
-        placeholder="Enter number"
         setValue={setMobile}
       />
       <BaseButton variant="primary" onPress={() => navigation.navigate('OTP')}>
         Get OTP
       </BaseButton>
-      <Divider />
-      <BaseButton variant="secondary">Register via mobile number</BaseButton>
     </View>
   );
 }
 
-export default LoginScreen;
+export default RegisterScreen;
