@@ -5,20 +5,14 @@ import Input from '../components/Input';
 import BaseButton from '../components/Button';
 import Divider from '../components/Divider';
 import {useNavigation} from '@react-navigation/native';
+import baseStyles from '../styles/baseStyles';
 
 function RegisterScreen() {
   const [mobile, setMobile] = useState('');
   const navigation = useNavigation();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 24,
-        marginTop: 100,
-      }}>
+    <View style={baseStyles.layout}>
       <Section
         title="Enter your mobile number"
         subtitle="Whatsapp number is preferred"
@@ -31,6 +25,12 @@ function RegisterScreen() {
       />
       <BaseButton variant="primary" onPress={() => navigation.navigate('OTP')}>
         Get OTP
+      </BaseButton>
+      <Divider />
+      <BaseButton
+        variant="secondary"
+        onPress={() => navigation.navigate('Login')}>
+        Login
       </BaseButton>
     </View>
   );

@@ -1,31 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
-import Divider from '../components/Divider';
 import {useNavigation} from '@react-navigation/native';
-import colors from '../styles/colors';
-// import DropdownMenu, {MenuOption} from '../components/DropDown';
 import Dropdown from '../components/DropDown';
 import Switch from '../components/Switch';
-
-const styles = StyleSheet.create({
-  triggerStyle: {
-    // height: 40,
-    backgroundColor: '#FFF',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  triggerText: {
-    fontSize: 16,
-  },
-});
+import baseStyles from '../styles/baseStyles';
 
 const foodPreferences = ['Veg', 'Non-Veg', 'Drinker', 'Non-Drinker'];
 
@@ -36,14 +17,7 @@ function NewUserScreen() {
   const [isDrinker, setIsDrinker] = useState(false);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 24,
-        marginTop: 100,
-      }}>
+    <View style={baseStyles.layout}>
       <Section
         title="A bit about yourself"
         subtitle="Enter your basic details"
@@ -69,7 +43,9 @@ function NewUserScreen() {
         setValue={setIsDrinker}
       />
 
-      <BaseButton variant="primary" onPress={() => navigation.navigate('OTP')}>
+      <BaseButton
+        variant="primary"
+        onPress={() => navigation.navigate('NewUserPayment')}>
         Proceed
       </BaseButton>
     </View>

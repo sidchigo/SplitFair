@@ -1,12 +1,12 @@
 import {JSX} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import colors from '../styles/colors';
 
 const styles = StyleSheet.create({
   dividerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 8,
   },
   grayText: {
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
   lineBefore: {
     borderBottomColor: colors.gray,
     borderBottomWidth: 1,
-    width: '100%',
+    width: '50%',
   },
   lineAfter: {
     borderBottomColor: colors.gray,
     borderBottomWidth: 1,
-    width: '100%',
+    width: '50%',
   },
 });
 

@@ -13,9 +13,10 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import OTPScreen from './src/screens/OTP';
 import RegisterScreen from './src/screens/Register';
 import NewUserScreen from './src/screens/NewUser';
+import NewUserPaymentScreen from './src/screens/NewUserPayment';
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'NewUser',
+  initialRouteName: 'Home',
   screenOptions: {
     headerShown: false,
     animation: 'ios_from_right',
@@ -26,6 +27,7 @@ const RootStack = createNativeStackNavigator({
     OTP: OTPScreen,
     Register: RegisterScreen,
     NewUser: NewUserScreen,
+    NewUserPayment: NewUserPaymentScreen,
   },
 });
 
@@ -49,7 +51,7 @@ export default function App() {
         style={{
           flex: 1,
           backgroundColor: theme.colors.background,
-          padding: 16,
+          // paddingHorizontal: 16,
         }}>
         <StatusBar animated translucent barStyle="dark-content" />
         <Navigation theme={theme} />

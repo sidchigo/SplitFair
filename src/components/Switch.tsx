@@ -1,68 +1,70 @@
-// Dropdown.tsx
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Modal,
-  Pressable,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import {inputStyles} from './Input';
+import {TouchableOpacity, View, StyleSheet, Animated, Text} from 'react-native';
 import colors from '../styles/colors';
+import {inputStyles} from './Input';
 
-type DropdownProps = {
+const CONTAINER_WIDTH = 40;
+const CIRCLE_SIZE = 20;
+const PADDING = 2;
+
+type SwitchProps = {
   label: string;
   value: boolean;
   setValue: (value: boolean) => void;
 };
 
 const styles = StyleSheet.create({
-  trigger: {
-    ...inputStyles.input,
-    padding: 12,
-    backgroundColor: '#fff',
+  container: {
+    width: CONTAINER_WIDTH,
+    height: CIRCLE_SIZE + PADDING * 2,
+    borderRadius: (CIRCLE_SIZE + PADDING * 2) / 2,
+    padding: PADDING,
   },
-  triggerText: {
-    fontSize: 16,
-    color: '#333',
+  circle: {
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
+    backgroundColor: 'white',
   },
-  overlay: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.25)',
-  },
-  dropdown: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingVertical: 8,
-    maxHeight: 250,
-    elevation: 5,
-  },
-  option: {
-    padding: 12,
-  },
-  optionText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  divider: {
-    borderBottomColor: colors.gray,
-    borderBottomWidth: 1,
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
   },
 });
 
-const Dropdown: React.FC<DropdownProps> = ({label, value, setValue}) => {
+const Switch = ({label, value, setValue}: SwitchProps) => {
+  const [animation] = useState(new Animated.Value(value ? 1 : 0));
+
+  const toggleSwitch = () => {
+    Animated.timing(animation, {
+      toValue: value ? 0 : 1,
+      duration: 250,
+      useNativeDriver: false,
+    }).start();
+    setValue(!value);
+  };
+
+  const translateX = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, CONTAINER_WIDTH - CIRCLE_SIZE - PADDING * 2],
+  });
+
   return (
-    <Pressable onPress={setValue}>
-      <View>
-        <View></View>
-      </View>
-    </Pressable>
+    <View style={styles.switchContainer}>
+      <Text style={inputStyles.subtitle}>{label}</Text>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={toggleSwitch}
+        style={[
+          styles.container,
+          {backgroundColor: value ? colors.purple : colors.gray},
+        ]}>
+        <Animated.View style={[styles.circle, {transform: [{translateX}]}]} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
-export default Dropdown;
+export default Switch;

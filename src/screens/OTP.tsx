@@ -4,19 +4,15 @@ import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
 import Divider from '../components/Divider';
+import {useNavigation} from '@react-navigation/native';
+import baseStyles from '../styles/baseStyles';
 
 function OTPScreen() {
   const [mobile, setMobile] = useState('');
+  const navigation = useNavigation();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 24,
-        marginTop: 100,
-      }}>
+    <View style={baseStyles.layout}>
       <Section
         title="Enter OTP"
         subtitle="We have sent an OTP on your registered number"
@@ -28,7 +24,11 @@ function OTPScreen() {
         setValue={setMobile}
         maxLength={4}
       />
-      <BaseButton variant="primary">Login</BaseButton>
+      <BaseButton
+        variant="primary"
+        onPress={() => navigation.navigate('NewUser')}>
+        Login
+      </BaseButton>
     </View>
   );
 }

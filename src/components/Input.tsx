@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import colors from '../styles/colors';
 
 export const inputStyles = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ export const inputStyles = StyleSheet.create({
     height: 48,
     fontSize: 16,
     borderWidth: 2,
-    borderColor: '#E0E0E0',
+    borderColor: colors.lightGray,
     borderRadius: 8,
     paddingHorizontal: 12,
     marginTop: 8,
