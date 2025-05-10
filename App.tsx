@@ -14,9 +14,12 @@ import OTPScreen from './src/screens/OTP';
 import RegisterScreen from './src/screens/Register';
 import NewUserScreen from './src/screens/NewUser';
 import NewUserPaymentScreen from './src/screens/NewUserPayment';
+import BillScreen from './src/screens/Bill';
+import SelectGroupScreen from './src/screens/SelectGroup';
+import AddMembersScreen from './src/screens/AddMembers';
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
+  initialRouteName: 'Login',
   screenOptions: {
     headerShown: false,
     animation: 'ios_from_right',
@@ -28,6 +31,9 @@ const RootStack = createNativeStackNavigator({
     Register: RegisterScreen,
     NewUser: NewUserScreen,
     NewUserPayment: NewUserPaymentScreen,
+    Bill: BillScreen,
+    SelectGroup: SelectGroupScreen,
+    AddMembers: AddMembersScreen,
   },
 });
 
@@ -44,17 +50,17 @@ const Navigation = createStaticNavigation(RootStack);
 export default function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const theme = !isDarkMode ? darkTheme : lightTheme;
+  // const theme = !isDarkMode ? darkTheme : lightTheme;
   return (
     <SafeAreaProvider>
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: theme.colors.background,
+          // backgroundColor: theme.Colors.background,
           // paddingHorizontal: 16,
         }}>
         <StatusBar animated translucent barStyle="dark-content" />
-        <Navigation theme={theme} />
+        <Navigation theme={lightTheme} />
       </SafeAreaView>
     </SafeAreaProvider>
   );

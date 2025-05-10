@@ -1,17 +1,19 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {ChevronRight} from 'react-native-feather';
 import colors from '../styles/colors';
 
 type CardProps = {
-  title: string;
+  title?: string;
   type: 'bill' | 'group';
-  currency: string;
-  groupName: string;
+  currency?: string;
+  groupName?: string;
   amount?: number;
   memberCount?: number;
   totalBillCount?: number;
   pendingBillCount?: number;
   settledBillCount?: number;
+  showDetails?: boolean;
+  onPress?: () => void;
 };
 
 const cardStyles = StyleSheet.create({
@@ -48,6 +50,16 @@ const cardStyles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'InterBold',
   },
+  mediumGrayText: {
+    fontSize: 14,
+    fontFamily: 'InterMedium',
+    color: colors.gray,
+  },
+  regularGrayText: {
+    fontSize: 12,
+    fontFamily: 'InterRegular',
+    color: colors.gray,
+  },
   smallText: {
     fontSize: 12,
     fontFamily: 'InterMedium',
@@ -80,64 +92,74 @@ const cardStyles = StyleSheet.create({
 
 export function Card(props: CardProps) {
   const {
-    title,
     type,
-    currency,
-    groupName,
+    title = '',
+    currency = 'Rs',
+    groupName = '',
     memberCount = 0,
     amount = 0,
     totalBillCount = 0,
     pendingBillCount = 0,
     settledBillCount = 0,
+    showDetails = true,
+    onPress = () => undefined,
   } = props;
 
   if (type === 'bill') {
     return (
-      <View style={cardStyles.container}>
-        <View style={cardStyles.leftFlex}>
-          <Text style={cardStyles.boldText}>
-            {currency} {amount}
-          </Text>
-          <Text>{title}</Text>
+      <Pressable onPress={onPress}>
+        <View style={cardStyles.container}>
+          <View style={cardStyles.leftFlex}>
+            <Text style={cardStyles.boldText}>
+              {currency} {amount}
+            </Text>
+            <Text>{title}</Text>
+          </View>
+          <View style={cardStyles.rightFlex}>
+            <Text style={cardStyles.smallText}>{groupName}</Text>
+            <ChevronRight stroke="black" width={20} height={20} />
+          </View>
         </View>
-        <View style={cardStyles.rightFlex}>
-          <Text style={cardStyles.smallText}>{groupName}</Text>
-          <ChevronRight stroke="black" width={20} height={20} />
-        </View>
-      </View>
+      </Pressable>
     );
   }
 
   if (type === 'group') {
     return (
-      <View style={cardStyles.groupContainer}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={cardStyles.leftFlex}>
-            <Text style={cardStyles.boldText}>{groupName}</Text>
-            <View style={cardStyles.normalFlex}>
-              <Image source={require('../assets/images/people.png')} />
-              <Text>{memberCount} members</Text>
+      <Pressable onPress={onPress}>
+        <View style={cardStyles.groupContainer}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={cardStyles.leftFlex}>
+              <Text style={cardStyles.mediumGrayText}>{groupName}</Text>
+              <View style={cardStyles.normalFlex}>
+                <Image source={require('../assets/images/people.png')} />
+                <Text style={cardStyles.regularGrayText}>
+                  {memberCount} members
+                </Text>
+              </View>
+            </View>
+            <View style={cardStyles.rightFlex}>
+              <ChevronRight stroke="black" width={20} height={20} />
             </View>
           </View>
-          <View style={cardStyles.rightFlex}>
-            <ChevronRight stroke="black" width={20} height={20} />
-          </View>
+          {showDetails && (
+            <View style={cardStyles.bottomGroup}>
+              <View style={cardStyles.rightBorder}>
+                <Text style={cardStyles.centerText}>Total Bills</Text>
+                <Text style={cardStyles.centerText}>{totalBillCount}</Text>
+              </View>
+              <View style={cardStyles.rightBorder}>
+                <Text style={cardStyles.centerText}>Pending Bills</Text>
+                <Text style={cardStyles.centerText}>{pendingBillCount}</Text>
+              </View>
+              <View>
+                <Text style={cardStyles.centerText}>Settled Bills</Text>
+                <Text style={cardStyles.centerText}>{settledBillCount}</Text>
+              </View>
+            </View>
+          )}
         </View>
-        <View style={cardStyles.bottomGroup}>
-          <View style={cardStyles.rightBorder}>
-            <Text style={cardStyles.centerText}>Total Bills</Text>
-            <Text style={cardStyles.centerText}>{totalBillCount}</Text>
-          </View>
-          <View style={cardStyles.rightBorder}>
-            <Text style={cardStyles.centerText}>Pending Bills</Text>
-            <Text style={cardStyles.centerText}>{pendingBillCount}</Text>
-          </View>
-          <View>
-            <Text style={cardStyles.centerText}>Settled Bills</Text>
-            <Text style={cardStyles.centerText}>{settledBillCount}</Text>
-          </View>
-        </View>
-      </View>
+      </Pressable>
     );
   }
 }

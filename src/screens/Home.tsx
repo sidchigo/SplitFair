@@ -7,10 +7,6 @@ import BaseButton from '../components/Button';
 import {Card} from '../components/Card';
 import {inputStyles} from '../components/Input';
 
-type RootStackParamList = {
-  Login: undefined;
-};
-
 const styles = StyleSheet.create({
   container: {
     ...baseStyles.layout,
@@ -49,7 +45,7 @@ const styles = StyleSheet.create({
 });
 
 function HomeScreen() {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -111,7 +107,11 @@ function HomeScreen() {
           reducedTransparencyFallbackColor="white"
         />
         <View style={styles.buttonWrapper}>
-          <BaseButton variant="primary">Create New Bill</BaseButton>
+          <BaseButton
+            variant="primary"
+            onPress={() => navigation.navigate('Bill')}>
+            Create New Bill
+          </BaseButton>
         </View>
       </View>
     </View>

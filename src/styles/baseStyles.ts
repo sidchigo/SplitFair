@@ -7,6 +7,7 @@ const baseStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 24,
     marginTop: 100,
+    paddingHorizontal: 16,
   },
 });
 

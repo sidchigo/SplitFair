@@ -23,9 +23,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: '50%',
   },
+  fullLine: {
+    borderBottomColor: colors.gray,
+    borderBottomWidth: 1,
+    width: '100%',
+  },
 });
 
-export default function Divider(): JSX.Element {
+export default function Divider({type = ''}: {type?: string}): JSX.Element {
+  if (type === 'line') {
+    return <View style={styles.fullLine} />;
+  }
   return (
     <View style={styles.dividerContainer}>
       <View style={styles.lineBefore} />
