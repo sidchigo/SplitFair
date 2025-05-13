@@ -1,4 +1,4 @@
-package com.yourappname
+package com.splitfair
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -29,7 +29,12 @@ class ContactsModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
         val contacts = Arguments.createArray()
         val cursor: Cursor? = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null, null, null, null
+            arrayOf(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.PHOTO_URI
+            ),
+            null, null, null
         )
 
         cursor?.use {
