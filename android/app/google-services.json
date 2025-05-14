@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930491945531",
+    "project_id": "splitfair-30fa5",
+    "storage_bucket": "splitfair-30fa5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930491945531:android:bb2628c5cedf47b050821e",
+        "android_client_info": {
+          "package_name": "com.splitfair"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPN7YTBD-IxTvMnH4X9qr-pYtA61ZymLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

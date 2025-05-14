@@ -50,14 +50,13 @@ const Navigation = createStaticNavigation(RootStack);
 export default function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
-  // const theme = !isDarkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
   return (
     <SafeAreaProvider>
       <SafeAreaView
         style={{
           flex: 1,
-          // backgroundColor: theme.Colors.background,
-          // paddingHorizontal: 16,
+          backgroundColor: theme.Colors.background,
         }}>
         <StatusBar animated translucent barStyle="dark-content" />
         <Navigation theme={lightTheme} />
