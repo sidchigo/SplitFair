@@ -1,20 +1,71 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ToastAndroid, View} from 'react-native';
+import {
+  collection,
+  getDocs,
+  getFirestore,
+} from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
+
 import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
-import {useNavigation} from '@react-navigation/native';
 import Dropdown from '../components/DropDown';
 import Switch from '../components/Switch';
 import baseStyles from '../styles/baseStyles';
 
-const foodPreferences = ['Veg', 'Non-Veg', 'Drinker', 'Non-Drinker'];
+export const db = getFirestore();
+
+// const getUsers = async () => {
+//   console.log('users:');
+//   try {
+//     const users = await getDocs(collection(db, 'users'));
+//     console.log(
+//       'users: ',
+//       users.docs.map(doc => doc.data()),
+//     );
+//   } catch (error) {
+//     console.log('Error getting users: ', error);
+//   }
+// };
 
 function NewUserScreen() {
   const [name, setName] = useState('');
   const navigation = useNavigation();
-  const [selected, setSelected] = useState<string | null>(foodPreferences[0]);
+  const [foodTypes, setFoodTypes] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
   const [isDrinker, setIsDrinker] = useState(false);
+
+  useEffect(() => {
+    const getFoodTypes = async () => {
+      try {
+        const constants = await getDocs(collection(db, 'constants'));
+        setFoodTypes(constants.docs.map(doc => doc.data())[0].foodTypes);
+      } catch (error) {
+        console.log('Error getting users: ', error);
+      }
+    };
+    getFoodTypes();
+  }, []);
+
+  const handleProceed = async () => {
+    if (!name || !selected) {
+      ToastAndroid.show('Please fill all fields', ToastAndroid.SHORT);
+      return;
+    }
+    const payload = {
+      name,
+      foodType: selected,
+      isDrinker,
+    };
+    try {
+      // TODO: get user id from auth
+      await collection(db, 'users').doc().set(payload);
+      navigation.navigate('NewUserPayment');
+    } catch (error) {
+      ToastAndroid.show('User not created', ToastAndroid.SHORT);
+    }
+  };
 
   return (
     <View style={baseStyles.layout}>
@@ -31,7 +82,7 @@ function NewUserScreen() {
 
       <Dropdown
         label="Food Preference"
-        options={foodPreferences}
+        options={foodTypes}
         value={selected}
         onSelect={val => setSelected(val)}
         placeholder="Choose category"
@@ -43,9 +94,7 @@ function NewUserScreen() {
         setValue={setIsDrinker}
       />
 
-      <BaseButton
-        variant="primary"
-        onPress={() => navigation.navigate('NewUserPayment')}>
+      <BaseButton variant="primary" onPress={handleProceed}>
         Proceed
       </BaseButton>
     </View>

@@ -1,14 +1,39 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  collection,
+  getDocs,
+  getFirestore,
+} from '@react-native-firebase/firestore';
+
 import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
-import {useNavigation} from '@react-navigation/native';
 import baseStyles from '../styles/baseStyles';
 
+const db = getFirestore();
+
 function NewUserPaymentScreen() {
-  const [name, setName] = useState('');
+  const [upi, setUpi] = useState('');
   const navigation = useNavigation();
+
+  const handleProceed = async () => {
+    if (!upi) {
+      ToastAndroid.show('Please fill all fields', ToastAndroid.SHORT);
+      return;
+    }
+    const payload = {
+      upi,
+    };
+    try {
+      // TODO: get user id from auth
+      // await collection(db, 'users').doc('').update(payload);
+      navigation.navigate('Home');
+    } catch (error) {
+      ToastAndroid.show('Registration failed', ToastAndroid.SHORT);
+    }
+  };
 
   return (
     <View style={baseStyles.layout}>
@@ -18,13 +43,13 @@ function NewUserPaymentScreen() {
       />
       <Input
         label="UPI ID"
-        value={name}
-        setValue={setName}
+        value={upi}
+        setValue={setUpi}
         placeholder="username@upi"
         maxLength={45}
       />
 
-      <BaseButton variant="primary" onPress={() => navigation.navigate('Home')}>
+      <BaseButton variant="primary" onPress={handleProceed}>
         Proceed
       </BaseButton>
     </View>

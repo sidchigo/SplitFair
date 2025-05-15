@@ -1,5 +1,6 @@
 import {JSX} from 'react';
-import {StyleSheet, Pressable, Text} from 'react-native';
+import {StyleSheet, Pressable, Text, ActivityIndicator} from 'react-native';
+import colors from '../styles/colors';
 
 const styles = StyleSheet.create({
   baseButton: {
@@ -29,12 +30,14 @@ type BaseButtonProps = {
   variant: 'primary' | 'secondary' | 'tertiary';
   children: string;
   onPress?: () => void;
+  isLoading?: boolean;
 };
 
 export default function BaseButton({
   variant,
   children,
   onPress,
+  isLoading = false,
 }: BaseButtonProps): JSX.Element {
   const variantStyles = (type = '') => {
     switch (variant) {
@@ -48,10 +51,17 @@ export default function BaseButton({
         return type === '' ? {} : styles.baseButton;
     }
   };
+
+  if (isLoading) {
+    return (
+      <Pressable style={[styles.baseButton, variantStyles()]}>
+        <ActivityIndicator color={colors.white} />
+      </Pressable>
+    );
+  }
   return (
     <Pressable style={[styles.baseButton, variantStyles()]} onPress={onPress}>
       <Text style={[styles.buttonText, variantStyles('text')]}>{children}</Text>
-      {/* </Animated.View> */}
     </Pressable>
   );
 }

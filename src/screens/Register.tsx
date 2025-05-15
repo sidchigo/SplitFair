@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, ToastAndroid} from 'react-native';
 import Section from '../components/Section';
 import Input from '../components/Input';
 import BaseButton from '../components/Button';
@@ -22,6 +22,8 @@ function RegisterScreen() {
   const [code, setCode] = useState('');
 
   const [mobile, setMobile] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -34,6 +36,7 @@ function RegisterScreen() {
   function handleAuthStateChanged(user: any) {
     console.log('User state changed:', user);
     if (user) {
+      setLoading(false);
       // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
       // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
       // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
@@ -42,31 +45,40 @@ function RegisterScreen() {
   }
 
   async function handleSignInWithPhoneNumber(phoneNumber: string) {
-    const confirmation = await signInWithPhoneNumber(getAuth(), phoneNumber);
-    setConfirm(confirmation);
+    try {
+      // Send OTP to the mobile number
+      const confirmation = await signInWithPhoneNumber(getAuth(), phoneNumber);
+      setConfirm(confirmation);
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      ToastAndroid.show('Error sending OTP, try again', ToastAndroid.SHORT);
+    }
   }
 
   const handleOTP = async () => {
+    setLoading(true);
     // Check if the mobile number is valid
     if (mobile.length < 10) {
-      // TODO: display error toast
+      ToastAndroid.show('Invalid mobile number', ToastAndroid.SHORT);
+      setLoading(false);
       return;
     }
 
     // Number is valid then proceed to send OTP
-    console.log('Sending OTP to:', mobile);
     await handleSignInWithPhoneNumber(`+91${mobile}`);
-    // navigation.navigate('OTP');
+    setLoading(false);
   };
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       // Number is valid then proceed to send OTP
       await confirm?.confirm(code);
+      setLoading(false);
       navigation.navigate('NewUser');
     } catch (error) {
-      console.log('Invalid code.');
-      // TODO: display error toast
+      ToastAndroid.show('Invalid code', ToastAndroid.SHORT);
+      setLoading(false);
     }
   };
 
@@ -84,7 +96,7 @@ function RegisterScreen() {
           setValue={setCode}
           maxLength={6}
         />
-        <BaseButton variant="primary" onPress={handleLogin}>
+        <BaseButton variant="primary" onPress={handleLogin} isLoading={loading}>
           Login
         </BaseButton>
       </View>
@@ -103,7 +115,7 @@ function RegisterScreen() {
         value={mobile}
         setValue={setMobile}
       />
-      <BaseButton variant="primary" onPress={handleOTP}>
+      <BaseButton variant="primary" onPress={handleOTP} isLoading={loading}>
         Get OTP
       </BaseButton>
       <Divider />

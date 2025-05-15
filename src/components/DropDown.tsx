@@ -71,6 +71,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsOpen(false);
   };
 
+  const formattedOptions = options.map(
+    option => option[0].toUpperCase() + option.slice(1),
+  );
+
   return (
     <View style={inputStyles.container}>
       <Text style={inputStyles.subtitle}>{label}</Text>
@@ -82,7 +86,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <Pressable style={styles.overlay} onPress={() => setIsOpen(false)}>
           <View style={styles.dropdown}>
             <FlatList
-              data={options}
+              data={formattedOptions}
               keyExtractor={item => item}
               ItemSeparatorComponent={() => <View style={styles.divider} />}
               renderItem={({item}) => (
